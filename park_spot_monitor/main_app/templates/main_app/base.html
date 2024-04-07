@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/docs.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/all.min.css' %}">
+</head>
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-custom" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi pe-none me-2" width="10" height="32"><use xlink:href="#bootstrap"/></svg>
+            <img src="{% static 'main_app/logo-main.svg' %}" width="60" height="60" >
+            <span class="fs-4">Code Warriors</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column">
+            <li>
+                <a class="nav-link active" href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span class="nav-item mx-auto">Home</span>
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+                <a class="nav-link text-white" href="{% url 'users:logout' %}">
+                    <i class="fa-solid fa-sign-out"></i>
+                    <span class="nav-item">Logout</span>
+                </a>
+            </li>
+            {% else %}
+            <li>
+                <a class="nav-link text-white" href="{% url 'users:login' %}">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="nav-item">SignIn</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-white" href="{% url 'users:register' %}">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span class="nav-item">SignUp</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

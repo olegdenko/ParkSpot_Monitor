@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Plates(models.Model):
     plate = models.CharField(unique=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plates_main_app')
 
     def _str_(self):
         return f"{self.plate}"

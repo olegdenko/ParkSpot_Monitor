@@ -1,50 +1,45 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.contrib import messages
+from .forms import RegisterForm
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .models import User
-from .forms import UserForm
+
+# @login_required
+def logout_view(request):
+    if request.method == 'GET':
+        username = request.user.username
+        logout(request)
+        return render(request, "users/signout.html", {"title":"Logout user", "username": username})
+    redirect(to="mian_app:main")
 
 
-@login_required
-def user_list(request):
-    users = User.objects.all()
-    return render(request, 'user_list.html', {'users': users})
+class RegisterView(View):
+    form_class = RegisterForm
+    template_name = "users/signup.html"
 
+    def get(self, request):
+        return render(request, self.template_name, {"title":"Register new user", "form": self.form_class})
 
-@login_required
-def user_detail(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    return render(request, 'user_detail.html', {'user': user})
-
-
-@login_required
-def user_create(request):
-    if request.method == 'POST':
-        form = UserForm(request.POST)
+    def post(self, request):
+        form = self.form_class(request.POST)
+        print(form)
         if form.is_valid():
-            user = form.save()
-            return redirect('user_detail', pk=user.pk)
-    else:
-        form = UserForm()
-    return render(request, 'user_form.html', {'form': form})
+            form.save()
+            username = form.cleaned_data["username"]
+            messages.success(request, f'Вітаємо, {username}! Ваш акаунт успішно створений')
+            return redirect(to='users:login')
+        return render(request, self.template_name, {"form": form})
 
-
-@login_required
-def user_update(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid():
-            user = form.save()
-            return redirect('user_detail', pk=user.pk)
-    else:
-        form = UserForm(instance=user)
-    return render(request, 'user_form.html', {'form': form})
-
-
-@login_required
-def user_delete(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    if request.method == 'POST':
-        user.delete()
-        return redirect('user_list')
-    return render(request, 'user_confirm_delete.html', {'user': user})
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'users/password_reset.html'
+    email_template_name = 'users/password_reset_email.html'
+    html_email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
+    success_message = "An email with instructions to reset your password has been sent to %(email)s."
+    subject_template_name = 'users/password_reset_subject.txt'

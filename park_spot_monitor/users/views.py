@@ -10,13 +10,13 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-# @login_required
+@login_required
 def logout_view(request):
     if request.method == 'GET':
         username = request.user.username
         logout(request)
         return render(request, "users/signout.html", {"title":"Logout user", "username": username})
-    redirect(to="mian_app:main")
+    return redirect(to="mian_app:main")
 
 
 class RegisterView(View):

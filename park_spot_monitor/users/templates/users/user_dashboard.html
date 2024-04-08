@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/styles.css' %}">
+    <!-- Додайте інші стилі або файли CSS, які вам потрібні -->
+</head>
+<body>
+    <div class="container">
+        <h1>User Dashboard</h1>
+        <!-- Додайте HTML-код для відображення статистики, балансу тощо -->
+        <p>Last 10 entries and exits:</p>
+        <ul>
+            <!-- Виведіть дані про останні в'їзди та виїзди -->
+            {% for entry in entries %}
+                <li>{{ entry.datetime }} - {{ entry.type }}</li>
+            {% endfor %}
+        </ul>
+        <p>Balance: ${{ request.user.balance.amount }}</p>
+        <p>Payment Status: {% if payment_due %}Payment Due{% else %}No Payment Due{% endif %}</p>
+        <form action="{% url 'users:top_up_balance' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" value="100">Top Up Balance by $100</button>
+        </form>
+        <form action="{% url 'main_app:main' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Back to User Dashboard</button>
+        </form>
+    </div>
+</body>
+</html>

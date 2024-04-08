@@ -10,13 +10,39 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
+from .models import Entry, Balance
+
+
 # @login_required
 def logout_view(request):
     if request.method == 'GET':
         username = request.user.username
         logout(request)
-        return render(request, "users/signout.html", {"title":"Logout user", "username": username})
-    redirect(to="mian_app:main")
+        return render(request, "users/signout.html", {"title": "Logout user", "username": username})
+    return redirect("main_app:main")
+
+
+def user_dashboard(request):
+    entries = Entry.objects.all()[:10]  # Останні 10 записів
+    balance = Balance.objects.get(user=request.user).amount  # Баланс користувача
+    payment_due = True  # Перевірте, чи є оплата
+    return render(request, 'users/user_dashboard.html', {'entries': entries, 'balance': balance, 'payment_due': payment_due})
+
+
+def top_up_balance(request):
+    # Отримання балансу користувача
+    balance = Balance.objects.get(user=request.user)
+    # Оновлення балансу на 100 балів
+    balance.amount += 100
+    balance.save()
+    # Після успішного поповнення перенаправлення на сторінку користувача
+    return redirect('users:user_dashboard')
+
+
+def refresh_user_data(request):
+    entries = Entry.objects.filter(user=request.user).order_by('-datetime')[:10]
+    balance = Balance.objects.get_or_create(user=request.user)[0].amount
+    return {'entries': entries, 'balance': balance}
 
 
 class RegisterView(View):

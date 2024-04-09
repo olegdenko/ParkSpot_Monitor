@@ -2,23 +2,40 @@
 {% load static %}
 
 {% block content %}
-  {% if user.is_authenticated %}
+
+{% if user.is_authenticated %}
+
     <div class="card mt-5" style="max-width: 540px;">
-      <div class="row g-0">
-        <div class="col-md-8" style="background-color: #f4f4f4;">
-          <div class="card-body">
-            <h5 class="card-title">Welcome: {{user.username}}</h5>
+        <div class="row g-0">
+          <div class="col-md-4" style="padding: 10px 0;">
+            <div class="center-content">
+                <img src="{% static 'main_app/human-man.svg' %}" width="128" 
+                    class="img-fluid rounded" alt="...">
+            </div>
+          </div>
+          <div class="background-image-custom" style="padding-left: 0;">
+            <div class="card-body">
+              <h5 class="card-title">Welcome: {{user.username}}</h5>
+            </div>
           </div>
         </div>
-      </div>
     </div>
-  {% else %}
-    <div class="px-4 my-5 text-center" style="padding-top: 0; margin-top: 0;">
-      <h1 class="display-5 fw-bold" style="font-size: 36px; margin-top: -20px;">Welcome to my Django project</h1>
-      <h3 class="display-5 fw-bold" style="font-size: 26px; margin-top: 10px;" >bd-example</h3>
-      <div class="col-lg-6 mx-auto">
-        <p class="lead" style="font-size: 16px;">Text</p>
-      </div>
+
+{% else %}
+<div class="px-4 my-5 text-center" style="padding-top: 0; margin-top: 0;">
+    <h1 class="display-5 fw-bold" style="font-size: 36px; margin-top: -20px;">Welcome</h1>
+    <h3 class="display-5 fw-bold" style="font-size: 26px; margin-top: 10px;" ></h2>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead" style="font-size: 16px;"></p>
     </div>
-  {% endif %}
+    <img class="d-block mx-auto mb-4" style="border-radius: 0.5rem;" src="{% static 'main_app/cont1.jpg' %}" 
+        alt="" width="724" height="779">
+</div>
+{% endif %}
+
 {% endblock %}
+
+
+
+
+

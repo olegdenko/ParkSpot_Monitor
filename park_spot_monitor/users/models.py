@@ -15,21 +15,18 @@ class Plates(models.Model):
 class Sessions(models.Model):
     entrance_time = models.DateTimeField(auto_now_add=True)
     exit_time = models.DateTimeField(null=True)
+    type = models.CharField(max_length=100, default='')  # Значення за замовчуванням, якщо тип не вказано
     plate = models.ForeignKey(Plates, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.entrance_time} - {self.type}"
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
-    
-
-class Entry(models.Model):
-    datetime = models.DateTimeField(auto_now_add=True)
-    type = models.CharField(max_length=100)  # Ви можете налаштувати це поле відповідно до вашого використання
-
-    def __str__(self):
-        return f"{self.datetime} - {self.type}"
 
 
 class Balance(models.Model):

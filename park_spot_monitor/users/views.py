@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Entry, Balance
+from .models import Sessions, Balance
 
 
 # @login_required
@@ -23,7 +23,7 @@ def logout_view(request):
 
 
 def user_dashboard(request):
-    entries = Entry.objects.all()[:10]  # Останні 10 записів
+    entries = Sessions.objects.all()[:10]  # Останні 10 записів
     balance = Balance.objects.get(user=request.user).amount  # Баланс користувача
     payment_due = True  # Перевірте, чи є оплата
     return render(request, 'users/user_dashboard.html', {'entries': entries, 'balance': balance, 'payment_due': payment_due})

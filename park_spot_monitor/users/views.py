@@ -1,14 +1,15 @@
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
-from .forms import RegisterForm
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
+from .forms import RegisterForm, PlateForm
+from .models import Plates
 
 @login_required
 def logout_view(request):
@@ -43,3 +44,15 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     success_url = reverse_lazy('users:password_reset_done')
     success_message = "An email with instructions to reset your password has been sent to %(email)s."
     subject_template_name = 'users/password_reset_subject.txt'
+
+
+@login_required
+def add_plate(request):
+    form = PlateForm(request.POST)
+    if form.is_valid(): 
+        new_plate = form.save(commit=False)
+        new_plate.user = request.user
+        new_plate.save()
+        return redirect(to='main_app:main')
+    else:
+        return render(request, 'users/add_plate.html', {'form': form})

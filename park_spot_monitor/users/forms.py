@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.forms import CharField, TextInput, EmailField, EmailInput, PasswordInput
+from django.forms import CharField, TextInput, EmailField, EmailInput, PasswordInput, ModelForm
 
+from .models import Plates
 
 class RegisterForm(UserCreationForm):
     username = CharField(max_length=100, required=True, widget=TextInput(attrs={"class": "form-control"}))
@@ -27,3 +28,11 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ("username", "password")
+
+
+class PlateForm(ModelForm):
+    plate = CharField(min_length=4, widget=TextInput())
+
+    class Meta:
+        model = Plates
+        fields = ['plate']

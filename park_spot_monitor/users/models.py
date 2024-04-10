@@ -3,20 +3,24 @@ from django.contrib.auth.models import User
 
 
 class Plates(models.Model):
-    plate = models.CharField(unique=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    plate = models.CharField(unique=True, max_length=20)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def _str_(self):
-        return f"{self.plate}"
-    
+    def __str__(self):
+        return f"{self.plate} User {self.user.username}"
+
 
 class Sessions(models.Model):
     entrance_time = models.DateTimeField(auto_now_add=True)
     exit_time = models.DateTimeField(null=True)
     plate = models.ForeignKey(Plates, on_delete=models.CASCADE)
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
     def __str__(self):
-        return self.user.username
+        return f"Session for {self.plate.plate}"
+
+# class BlacklistedVehicle(models.Model):
+#     plate = models.ForeignKey('Plates', on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return f"{self.plate.plate} User {self.user.username}"

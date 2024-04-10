@@ -2,7 +2,7 @@ from PIL import Image
 from ultralytics import YOLO
 import easyocr
 import os
-import datetime
+
 
 def detect_license_plates(image_path):
     model = YOLO('runs/detect/train2/weights/best.pt')
@@ -28,12 +28,7 @@ def detect_license_plates(image_path):
         plate_number = results[0][1].replace("-", "").replace(":", "").replace(" ", "")
         print(f"License Plate {i+1} Text: {plate_number}")
         
-
-    current_datetime = datetime.datetime.now()
-    print("Current date and time:", current_datetime) 
-
-
-image_path = 'dataset/train/images/Cars355_png.rf.33bf229fcab150d0e28921cf093dd36e.jpg'
+image_path = 'dataset/test/images/Cars39_png.rf.fe511779e2f9eb9d412827d8d91f722b.jpg'
 
 
 detect_license_plates(image_path)

@@ -20,6 +20,8 @@ babel = ">=2.14.0,<2.15.0"
 pytesseract = "^0.3.10"
 imutils = "^0.5.4"
 numpy = "^1.26.4"
+ultralytics = "^8.1.45"
+easyocr = "^1.7.1"
 
 
 [tool.poetry.group.dev.dependencies]

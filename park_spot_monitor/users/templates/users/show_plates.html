@@ -8,7 +8,9 @@
     <h3 style="margin-left: 10px;">Your plates:</h3>
     <ul>
     {% for plate in plates %}
-      <li><p>{{ plate.plate }}</p></li>
+      <li>
+        <a href="{% url 'users:manage_plate' plate.id %}">{{ plate.plate }}</a>
+      </li>
     {% endfor %}
     </ul>
 </div>

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
@@ -65,6 +65,22 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     subject_template_name = 'users/password_reset_subject.txt'
 
 
+# Plates
+@login_required
+def show_plates(request):
+    plates = None
+    if request.user.is_authenticated:
+        plates = Plates.objects.all()
+    
+    return render(request, 'users/show_plates.html', {"plates": plates})
+
+
+@login_required
+def manage_plate(request, plate_id):
+    plate = get_object_or_404(Plates, pk=plate_id)
+    return render(request, 'users/manage_plate.html', {"plate": plate})
+
+
 @login_required
 def add_plate(request):
     form = PlateForm(request.POST)
@@ -78,9 +94,6 @@ def add_plate(request):
     
 
 @login_required
-def show_plates(request):
-    plates = None
-    if request.user.is_authenticated:
-        plates = Plates.objects.all()
-    
-    return render(request, 'users/show_plates.html', {"plates": plates})
+def delete_plate(request, plate_id):
+    Plates.objects.get(id=plate_id, user_id=request.user.id).delete()
+    return redirect(to='users:show_plates')

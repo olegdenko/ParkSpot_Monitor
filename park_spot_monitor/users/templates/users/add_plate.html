@@ -1,0 +1,16 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'users:add_plate' %}" class="mb-3 custom-form">
+    {% csrf_token %}
+    <div class="mb-3" style="margin-top: 50px;">
+        {{ form.plate }}
+        <div class="text-danger">{{ form.errors.text }}</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-secondary">Reset</button>
+</form>
+
+{% endblock %}

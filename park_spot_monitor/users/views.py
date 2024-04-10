@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 
-
+from .forms import RegisterForm, PlateForm
+from .models import Plates
 
 @login_required
 def logout_view(request):

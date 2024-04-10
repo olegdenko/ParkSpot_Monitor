@@ -75,3 +75,12 @@ def add_plate(request):
         return redirect(to='main_app:main')
     else:
         return render(request, 'users/add_plate.html', {'form': form})
+    
+
+@login_required
+def show_plates(request):
+    plates = None
+    if request.user.is_authenticated:
+        plates = Plates.objects.all()
+    
+    return render(request, 'users/show_plates.html', {"plates": plates})

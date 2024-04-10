@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
-from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate
+from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate, show_plates
 
 from .forms import LoginForm
 
@@ -26,4 +26,5 @@ urlpatterns = [
           PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
           name='password_reset_complete'),
      path('add_plate/', add_plate, name='add_plate'),
+     path('show_plates/', show_plates, name='show_plates'),
 ]

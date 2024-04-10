@@ -41,31 +41,32 @@
         </a>
         <hr>
         <ul class="nav nav-pills flex-column">
-          <li>
+            <li>
             <a class="nav-link active" href="/">
-              <i class="fa-solid fa-home"></i>
-              <span class="nav-item mx-auto">Home</span>
+                <i class="fa-solid fa-home"></i>
+                <span class="nav-item mx-auto">Home</span>
             </a>
-          </li>
-          {% if user.is_authenticated %}
-          <li>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
             <a class="nav-link text-white" href="{% url 'users:add_plate' %}">
-              <i class="fa-solid fa-plus"></i>
-              <span class="nav-item">Add your plate</span>
+                <i class="fa-solid fa-plus"></i>
+                <span class="nav-item">Add your plate</span>
             </a>
-          </li>
-          <li>
+            </li>
+            <li>
             <a class="nav-link text-white" href="{% url 'users:logout' %}">
-              <i class="fa-solid fa-sign-out"></i>
-              <span class="nav-item">Logout</span>
+                <i class="fa-solid fa-sign-out"></i>
+                <span class="nav-item">Logout</span>
             </a>
-          </li>
-          {% else %}
-          <li>
+            </li>
+            {% else %}
+            <li>
             <a class="nav-link text-white" href="{% url 'users:login' %}">
-              <i class="fa-solid fa-user"></i>
-              <span class="nav-item">SignIn</span>
-           </li>  
+                <i class="fa-solid fa-user"></i>
+                <span class="nav-item">SignIn</span>
+            </a>
+            </li>  
             <li>
                 <a class="nav-link text-white" href="{% url 'users:register' %}">
                     <i class="fa-solid fa-user-check"></i>

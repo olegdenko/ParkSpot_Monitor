@@ -154,7 +154,7 @@ h1, .h1, h2, .h2, h3, .h3 {
   }
 
   .background-image-custom {
-    background-image: url('static/main_app/cont1.jpg'); /* Ваш шлях тут */
+    background-image: "{% static 'main_app/styles.css' %}"; /* Ваш шлях тут */
     background-size: cover;
     background-position: center;
 }

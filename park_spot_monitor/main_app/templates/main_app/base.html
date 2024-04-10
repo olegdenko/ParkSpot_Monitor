@@ -17,78 +17,117 @@
     <link rel="stylesheet" href="{% static 'main_app/docs.css' %}">
     <link rel="stylesheet" href="{% static 'main_app/css/all.min.css' %}">    
 
+    <style>
+        /* Додайте фонове зображення */
+        body {
+            background-image: url('{% static "main_app/background.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+
     <title>{{title}}</title>
 </head>
 <body>
 
 <main class="d-flex flex-nowrap">
-  <h1 class="visually-hidden">Sidebars examples</h1>
+    <h1 class="visually-hidden">Sidebars examples</h1>
 
-  <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-custom" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <svg class="bi pe-none me-2" width="10" height="32"><use xlink:href="#bootstrap"/></svg>
-
-      <img src="{% static 'main_app/logo-main.svg' %}" width="60" height="60" >
-      <span class="fs-4">AI Parking</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column">
-      <li>
-        <a class="nav-link active" href="/">
-          <i class="fa-solid fa-home"></i>
-          <span class="nav-item mx-auto">Home</span>
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-custom" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi pe-none me-2" width="10" height="32"><use xlink:href="#bootstrap"/></svg>
+            <img src="{% static 'main_app/logo-main.svg' %}" width="60" height="60" >
+            <span class="fs-4">AI Parking</span>
         </a>
-      </li>
-      {% if user.is_authenticated %}
-      <li>
-        <a class="nav-link text-white" href="{% url 'users:add_plate' %}">
-          <i class="fa-solid fa-plus"></i>
-          <span class="nav-item">Add your plate</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link text-white" href="{% url 'users:logout' %}">
-          <i class="fa-solid fa-sign-out"></i>
-          <span class="nav-item">Logout</span>
-        </a>
-      </li>
-      {% else %}
-      <li>
-        <a class="nav-link text-white" href="{% url 'users:login' %}">
-          <i class="fa-solid fa-user"></i>
-          <span class="nav-item">SignIn</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link text-white" href="{% url 'users:register' %}">
-          <i class="fa-solid fa-user-check"></i>
-          <span class="nav-item">SignUp</span>
-        </a>
-      </li>
-      {% endif %}
-    </ul>
-    <hr>
-    <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="static/main_app/human-man.svg" alt="" width="32" height="32" class="rounded-circle me-2">
-        {% if user.is_authenticated %}
-           <strong>{{user.username}}</strong><span style="color: #00d000"> &#9679;</span>
-        {% else %}
-           <strong>Username </strong>
-        {% endif %}
-      </a>
+        <hr>
+        <ul class="nav nav-pills flex-column">
+          <li>
+            <a class="nav-link active" href="/">
+              <i class="fa-solid fa-home"></i>
+              <span class="nav-item mx-auto">Home</span>
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+          <li>
+            <a class="nav-link text-white" href="{% url 'users:add_plate' %}">
+              <i class="fa-solid fa-plus"></i>
+              <span class="nav-item">Add your plate</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link text-white" href="{% url 'users:logout' %}">
+              <i class="fa-solid fa-sign-out"></i>
+              <span class="nav-item">Logout</span>
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a class="nav-link text-white" href="{% url 'users:login' %}">
+              <i class="fa-solid fa-user"></i>
+              <span class="nav-item">SignIn</span>
+           </li>  
+            <li>
+                <a class="nav-link text-white" href="{% url 'users:register' %}">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span class="nav-item">SignUp</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+        <hr>
+        <div class="dropdown" style="margin-top: 20px;"> <!-- Added inline style for margin-top -->
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{% static 'main_app/human-man.svg' %}" alt="" width="32" height="32" class="rounded-circle me-2"> <!-- Modified image source to use static template tag -->
+                {% if user.is_authenticated %}
+                <strong style="color: #00d000">{{user.username}}</strong><span style="color: #00d000"> &#9679;</span> <!-- Added inline style for username color -->
+                {% else %}
+                <strong style="color: #555">Username </strong> <!-- Added inline style for username color -->
+                {% endif %}
+            </a>
+        </div>
     </div>
-  </div>
-  <div class="b-example-divider b-example-vr"></div>
+    <div class="b-example-divider b-example-vr"></div>
 
-  <div class="container-fluid">
-    {% block content %}
-    {% endblock %}
-    <div class="flex-wrap">
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+        <div class="flex-wrap">
+        </div>
     </div>
-  </div>
 
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all buttons with class "nav-link"
+        const buttons = document.querySelectorAll('.nav-link');
+
+        // Loop through each button
+        buttons.forEach(button => {
+            // Add click event listener to each button
+            button.addEventListener('click', function(event) {
+                // Prevent default link behavior
+                event.preventDefault();
+
+                // Remove "active" class from all buttons
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Add "active" class to clicked button
+                this.classList.add('active');
+
+                // Get the href attribute of the clicked button
+                const url = this.getAttribute('href');
+
+                // Navigate to the URL after a short delay to allow CSS animation
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 300); // Adjust the delay as needed
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

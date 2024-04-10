@@ -9,7 +9,10 @@ from django.views import View
 from django.contrib import messages
 
 from .forms import RegisterForm, PlateForm
-from .models import Plates
+from .models import Balance, Sessions, Plates
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def logout_view(request):
@@ -18,6 +21,22 @@ def logout_view(request):
         logout(request)
         return render(request, "users/signout.html", {"title":"Logout user", "username": username})
     return redirect(to="mian_app:main")
+
+def user_dashboard(request):
+    entries = Sessions.objects.all()[:10]  # Останні 10 записів
+    balance = Balance.objects.get(user=request.user).amount  # Баланс користувача
+    payment_due = True  # Перевірте, чи є оплата
+    return render(request, 'users/user_dashboard.html', {'entries': entries, 'balance': balance, 'payment_due': payment_due})
+
+
+def top_up_balance(request):
+    # Отримання балансу користувача
+    balance = Balance.objects.get(user=request.user)
+    # Оновлення балансу на 100 балів
+    balance.amount += 100
+    balance.save()
+    # Після успішного поповнення перенаправлення на сторінку користувача
+    return redirect('users:user_dashboard')
 
 
 class RegisterView(View):

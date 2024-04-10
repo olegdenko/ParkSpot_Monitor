@@ -1,0 +1,49 @@
+{% extends 'main_app/base.html' %}
+
+{% block title %}
+    <title>User Dashboard</title>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/styles.css' %}">
+    <div class="container user-dashboard-container">
+        <h1 class="user-dashboard-title">User Dashboard</h1>
+
+        <!-- Entry and exit information -->
+        <section class="user-dashboard-section">
+            <h2><i class="fas fa-history"></i> Last 10 entries and exits:</h2>
+            <ul class="entry-list">
+                {% for entry in entries %}
+                    <li>{{ entry.datetime }} - {{ entry.type }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- User balance and payment status -->
+        <section class="user-dashboard-section">
+            <h2><i class="fas fa-wallet"></i> Balance and Payment Status</h2>
+            <p>Balance: ${{ request.user.balance.amount }}</p>
+            <p class="payment-status {% if payment_due %}payment-due{% else %}no-payment-due{% endif %}">
+                {% if payment_due %}
+                    <i class="fas fa-exclamation-circle"></i> Payment Due
+                {% else %}
+                    <i class="fas fa-check-circle"></i> No Payment Due
+                {% endif %}
+            </p>
+        </section>
+
+        <!-- Forms for topping up balance and navigating back -->
+        <section class="user-dashboard-section">
+            <h2><i class="fas fa-cogs"></i> Actions</h2>
+            <form action="{% url 'users:top_up_balance' %}" method="post" class="top-up-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary top-up-button" value="100"><i class="fas fa-dollar-sign"></i> Top Up Balance by $100</button>
+            </form>
+            <form action="{% url 'main_app:main' %}" method="post" class="back-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to User Dashboard</button>
+            </form>
+        </section>
+    </div>
+{% endblock %}

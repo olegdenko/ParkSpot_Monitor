@@ -1,0 +1,11 @@
+{% extends "main_app/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="card mt-5" style="max-width: 540px;">
+    <h2 style="margin-left: 10px;">{{ plate.plate }}</h2>
+    <a href="{% url 'users:delete_plate' plate.id %}" class="btn btn-danger" style="width: 150px;">Delete plate</a>
+</div>
+
+{% endblock %}

@@ -8,8 +8,8 @@ def detect_license_plates(image_path):
     model = YOLO('runs/detect/train2/weights/best.pt')
 
     input_image = Image.open(image_path)
-
-    plates_folder = 'plates'
+    
+    plates_folder = 'recognized_plates'
 
     detections = model(input_image)
 
@@ -28,7 +28,7 @@ def detect_license_plates(image_path):
         plate_number = results[0][1].replace("-", "").replace(":", "").replace(" ", "")
         print(f"License Plate {i+1} Text: {plate_number}")
         
-image_path = 'dataset/test/images/Cars39_png.rf.fe511779e2f9eb9d412827d8d91f722b.jpg'
+image_path = 'dataset/test/images/Cars331_png.rf.4cc396023c49c156ac8df83aa0183172.jpg'
 
 
 detect_license_plates(image_path)

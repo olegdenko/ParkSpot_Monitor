@@ -1,6 +1,8 @@
 {% extends "main_app/base.html" %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/styles.css' %}">
 <h1>SignIn</h1>
 
 <!-- Виводимо Flash сповіщення-->

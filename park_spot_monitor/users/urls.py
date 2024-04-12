@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate, show_plates, manage_plate, delete_plate,blocked_account_view,
+from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate, show_plates, manage_plate, delete_plate,blocked_account_view
 
 
 from .forms import LoginForm

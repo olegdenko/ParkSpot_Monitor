@@ -1,0 +1,18 @@
+{% extends "main_app/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="card mt-5" style="max-width: 540px;">
+    <h2 style="margin-left: 10px;">@{{user.username}}</h2>
+    <h3 style="margin-left: 10px;">Your plates:</h3>
+    <ul>
+    {% for plate in plates %}
+      <li>
+        <a href="{% url 'users:manage_plate' plate.id %}">{{ plate.plate }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

@@ -1,8 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate, show_plates, manage_plate, delete_plate,blocked_account_view
 
-
-from .views import RegisterView, ResetPasswordView, logout_view, user_dashboard, top_up_balance, add_plate, show_plates, manage_plate, delete_plate
 
 from .forms import LoginForm
 
@@ -28,5 +27,6 @@ urlpatterns = [
      path('show_plates/', show_plates, name='show_plates'),
      path('manage_plate/<int:plate_id>', manage_plate, name='manage_plate'),
      path('add_plate/', add_plate, name='add_plate'),
+     path('blocked_account/', blocked_account_view, name='blocked_account'),
      path('delete_plate/<int:plate_id>', delete_plate, name='delete_plate'),
 ]

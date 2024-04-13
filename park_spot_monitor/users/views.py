@@ -91,6 +91,10 @@ def add_plate(request):
         return redirect(to='main_app:main')
     else:
         return render(request, 'users/add_plate.html', {'form': form})
+
+def blocked_account_view(request):
+    return render(request, 'users/blocked_account.html')
+
     
 
 @login_required

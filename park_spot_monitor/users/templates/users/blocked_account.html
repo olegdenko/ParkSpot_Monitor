@@ -1,0 +1,32 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<div class="blocked-container">
+    <h2 class="blocked-title">Your account has been blocked</h2>
+    <p class="blocked-message">We're sorry, but your account has been blocked. Please contact support for further assistance.</p>
+</div>
+
+<style>
+    .blocked-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        text-align: center;
+    }
+
+    .blocked-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #d9534f; /* Bootstrap's danger color */
+    }
+
+    .blocked-message {
+        font-size: 18px;
+        line-height: 1.5;
+        color: #000000; /* білий колір тексту */
+    }
+</style>
+{% endblock %}

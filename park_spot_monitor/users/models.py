@@ -21,18 +21,20 @@ class Sessions(models.Model):
         return f"Session for {self.plate.plate}"
 
 
-# class BlacklistedVehicle(models.Model):
-#     plate = models.ForeignKey('Plates', on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-#     def __str__(self):
-#         return f"{self.plate.plate} User {self.user.username}"
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class BlacklistedVehicle(models.Model):
+    plate = models.ForeignKey('Plates', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reason = models.TextField()
 
     def __str__(self):
-        return self.user.username
+        return f"{self.plate.plate} User {self.user.username}"
+
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return self.user.username
 
 
 class Balance(models.Model):
@@ -43,10 +45,26 @@ class Balance(models.Model):
         return f"{self.user.username} - ${self.amount}"
 
 
+class ParkingRate(models.Model):
+    rate_name = models.CharField(max_length=50)
+    price_per_hour = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.rate_name} - ${self.price_per_hour} per hour"
+
+
+class Settings(models.Model):
+    key = models.CharField(max_length=255, unique=True)
+    value = models.TextField()
+
+    def __str__(self):
+        return f"{self.key}: {self.value}"
+
+
 @receiver(post_save, sender=User)
 def create_or_update_balance(sender, instance, created, **kwargs):
     if created:
-        Balance.objects.create(user=instance)
+        Balance.objects.create(user=instance, amount=0)
     else:
         if hasattr(instance, 'balance'):  # Check if 'balance' exists for the user
             instance.balance.amount = 0

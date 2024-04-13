@@ -1,6 +1,8 @@
 {% extends "main_app/base.html" %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/styles.css' %}">
 <br>
 <h3>Logged out: {{username}} </h3>
 <br>

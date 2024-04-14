@@ -168,3 +168,21 @@ span.error {
   display: block;
   margin-bottom: 10px;
 }
+
+.custom-form {
+  max-width: 500px; /* Максимальна ширина форми */
+  margin: auto; /* Центрування форми по центру сторінки */
+}
+
+.custom-form .form-control {
+  margin-top: 20px; /* Відступ зверху для полів форми */
+  border-color: #ccc; /* Колір рамки поля форми */
+}
+
+.custom-form .btn-primary {
+  margin-right: 10px; /* Відступ між кнопками */
+}
+
+.text-danger {
+  color: red; /* Колір тексту для помилок */
+}

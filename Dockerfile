@@ -1,16 +1,33 @@
-# Використовуємо офіційний базовий образ Python
-FROM python:3.10
+# Stage 1: Build stage
+FROM python:3.10 AS builder
 
-# Встановлюємо Poetry
-RUN curl -sSL https://install.python-poetry.org | python3.10 -
-RUN pip install poetry
+ENV PYTHONUNBUFFERED 1
 
-# Копіюємо файли проекту в контейнер
-COPY . /app
+RUN pip install --no-cache-dir poetry
 
-# Встановлюємо залежності з використанням Poetry
 WORKDIR /app
-RUN poetry install
 
-# Виконуємо команду для запуску сервера
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+COPY pyproject.toml poetry.lock /app/
+
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes \
+    && poetry install --no-dev --no-interaction --no-ansi
+
+# Stage 2: Production stage
+FROM python:3.10-slim
+
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /app
+
+COPY --from=builder /app/requirements.txt /app/
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /app/
+
+RUN python manage.py migrate \
+    && python manage.py collectstatic --noinput
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

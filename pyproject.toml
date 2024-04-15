@@ -22,6 +22,7 @@ imutils = "^0.5.4"
 numpy = "^1.26.4"
 ultralytics = "^8.1.45"
 easyocr = "^1.7.1"
+opencv-python = "^4.9.0.80"
 
 
 [tool.poetry.group.dev.dependencies]

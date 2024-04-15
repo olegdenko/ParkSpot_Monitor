@@ -1,0 +1,24 @@
+# Використовуємо офіційний базовий образ Python
+FROM python:3.10-slim
+
+# Встановлюємо Poetry
+RUN curl -sSL https://install.python-poetry.org | python3.10 -
+RUN pip install poetry
+
+# Створюємо каталог додатку та копіюємо файли проекту в нього
+WORKDIR /app
+COPY . .
+
+# # Копіюємо файли проекту в контейнер
+# COPY . /app
+
+# Встановлюємо залежності з використанням Poetry
+RUN poetry install
+# RUN poetry add django
+# RUN poetry run pip list
+
+# Виконуємо команду для запуску сервера
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# # Expose the port the app will run on
+# EXPOSE 8000

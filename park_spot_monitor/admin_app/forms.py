@@ -2,6 +2,8 @@ from django import forms
 from users.models import Plates, BlacklistedVehicle, ParkingRate, Settings
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from django.forms import Form, FileField
+
 class UserAdminCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
@@ -34,3 +36,6 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Settings
         fields = ['key', 'value']
+
+class UploadImageForm(Form):
+    image = FileField(label='Upload Image')

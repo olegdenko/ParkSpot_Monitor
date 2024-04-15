@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 class Plates(models.Model):
-    plate = models.CharField(unique=True, max_length=20)
+    plate = models.CharField(unique=True, max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

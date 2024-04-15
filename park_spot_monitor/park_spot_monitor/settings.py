@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'main_app',
     'users',
     'admin_app',
+    'number_recognition',
 ]
 
 MIDDLEWARE = [

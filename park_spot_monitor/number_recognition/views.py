@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 from users.models import Plates, Sessions
@@ -7,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 import cv2
 from admin_app.forms import UploadImageForm 
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UploadImageView(View):
@@ -30,17 +32,16 @@ class UploadImageView(View):
 
             if plate_number:
                 try:
-
-                    plate = Plates.objects.create(plate=plate_number)
-
+ 
                     if request.user.is_authenticated:
                         user = request.user
-                        session = Sessions.objects.create(plate=plate, user=user)
-                        return HttpResponse(f"Номер розпізнано: {plate_number}. Сесія створена.")
+                        plate = Plates.objects.create(plate=plate_number, user=user)
+                        session = Sessions.objects.create(plate=plate)
+                        return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
                     else:
-                        return HttpResponse("Для створення сесії, потрібно увійти до системи.")
+                        return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})
                 except Exception as e:
                     print(f"Error processing plate: {e}")
-                    return HttpResponse("Помилка обробки даних. Спробуйте ще раз.")
+                    return JsonResponse({'message': "Помилка обробки даних. Спробуйте ще раз."})
             else:
-                return HttpResponse("Номер не розпізнано")
+                return JsonResponse({'message': "Номер не розпізнано"})

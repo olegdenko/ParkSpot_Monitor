@@ -41,16 +41,16 @@ class UploadImageView(View):
                         
                         last_session.exit_time = timezone.now()
                         last_session.save()
-                        return HttpResponse(f"Транспортний засіб з номером {plate_number} виїхав.")
+                        return HttpResponse(f"Машина з номером {plate_number} виїхав.")
                     else:
                         
                         session = Sessions.objects.create(plate=plate)
-                        return HttpResponse(f"Транспортний засіб з номером {plate_number} заїхав.")
+                        return HttpResponse(f"Машина з номером {plate_number} заїхав.")
                 except Plates.DoesNotExist:
                     plate = Plates.objects.create(plate=plate_number)
                     session = Sessions.objects.create(plate=plate)
 
-                    return HttpResponse(f"Новий транспортний засіб з номером {plate_number} заїхав.")
+                    return HttpResponse(f"Машина з номером {plate_number} заїхав.")
             else:
                 return HttpResponse("Номер не розпізнано")
 

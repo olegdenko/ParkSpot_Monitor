@@ -14,6 +14,10 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
+import csv
+from django.http import HttpResponse
+
+
 @login_required
 def logout_view(request):
     if request.method == 'GET':
@@ -101,3 +105,26 @@ def blocked_account_view(request):
 def delete_plate(request, plate_id):
     Plates.objects.get(id=plate_id, user_id=request.user.id).delete()
     return redirect(to='users:show_plates')
+
+
+# Sessions report
+@login_required
+def generate_report_csv(request):
+    sessions = Sessions.objects.all()
+
+    field_names = ['Plate', 'User', 'Entrance Time', 'Exit Time']
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="parking_report.csv"'
+
+    writer = csv.DictWriter(response, fieldnames=field_names)
+    writer.writeheader()
+
+    for session in sessions:
+        writer.writerow({
+            'Plate': session.plate.plate,
+            'User': session.plate.user.username,
+            'Entrance Time': session.entrance_time,
+            'Exit Time': session.exit_time if session.exit_time else "Not exited yet"
+        })
+    return response

@@ -2,10 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.idea
+../.idea
 # C extensions
 *.so
-.env
+park_spot_monitor/.env
 .vscode
 # Distribution / packaging
 .Python

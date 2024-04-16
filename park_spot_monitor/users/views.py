@@ -96,10 +96,10 @@ def add_plate(request):
     else:
         return render(request, 'users/add_plate.html', {'form': form})
 
+
 def blocked_account_view(request):
     return render(request, 'users/blocked_account.html')
-
-    
+  
 
 @login_required
 def delete_plate(request, plate_id):

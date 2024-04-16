@@ -26,4 +26,6 @@ RUN chmod +x /entrypoint.sh
 
 COPY . /app/
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+# RUN chmod +x ./wait-for-it.sh
+
+# ENTRYPOINT [ "/entrypoint.sh" ]

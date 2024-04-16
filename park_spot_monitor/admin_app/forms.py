@@ -1,5 +1,5 @@
 from django import forms
-from users.models import Plates, BlacklistedVehicle, ParkingRate, Settings
+from users.models import Plates, BlacklistedVehicle, Settings
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.forms import Form, FileField
@@ -24,12 +24,6 @@ class BlacklistedVehicleForm(forms.ModelForm):
     class Meta:
         model = BlacklistedVehicle
         fields = ['plate', 'user', 'reason']
-
-
-class ParkingRateForm(forms.ModelForm):
-    class Meta:
-        model = ParkingRate
-        fields = ['rate_name', 'price_per_hour']
 
 
 class SettingsForm(forms.ModelForm):

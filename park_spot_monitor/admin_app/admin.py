@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
-from users.models import Plates, Sessions, Balance, BlacklistedVehicle, ParkingRate
-from .forms import UserAdminChangeForm, UserAdminCreationForm,  PlatesForm, BlacklistedVehicleForm, ParkingRateForm
+from users.models import Plates, Sessions, Balance, BlacklistedVehicle
+from .forms import UserAdminChangeForm, UserAdminCreationForm,  PlatesForm, BlacklistedVehicleForm
 
 class BlockUserAdmin(admin.AdminSite):
     site_header = 'Admin Panel'
@@ -37,10 +37,6 @@ class BlacklistedVehicleAdmin(admin.ModelAdmin):
     list_filter = ('plate', 'user')
     search_fields = ('plate__plate', 'user__username', 'reason')
 
-@admin.register(ParkingRate)
-class ParkingRateAdmin(admin.ModelAdmin):
-    list_display = ('rate_name', 'price_per_hour')
-
 class PlatesAdmin(admin.ModelAdmin):
     list_display = ('plate', 'user')
 
@@ -48,7 +44,7 @@ class SessionsAdmin(admin.ModelAdmin):
     list_display = ('plate', 'entrance_time', 'exit_time')
 
 class BalanceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'amount')
+    list_display = ('user', 'balance')
 
 admin_site = BlockUserAdmin(name='block_user_admin')
 
@@ -57,5 +53,4 @@ admin_site.register(Plates, PlatesAdmin)
 admin_site.register(Sessions, SessionsAdmin)
 admin_site.register(Balance, BalanceAdmin)
 admin_site.register(BlacklistedVehicle, BlacklistedVehicleAdmin)
-admin_site.register(ParkingRate, ParkingRateAdmin)
 

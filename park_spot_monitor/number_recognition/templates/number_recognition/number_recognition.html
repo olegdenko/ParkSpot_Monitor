@@ -1,48 +1,26 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Park Spot Monitor</title>
-</head>
-<body>
-    <h1>Number recognition</h1>
-    <form id="uploadForm" method="post" enctype="multipart/form-data">
-        {% csrf_token %}  <label for="image">Upload an image:</label>
-        <input type="file" id="image" name="image" accept="image/*">
-        <button type="submit">Recognize plate</button>
-    </form>
+{% extends "main_app/base.html" %}
 
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'number_recognition/styles.css' %}">
 
-            var fileInput = document.getElementById('image');
-            if (fileInput.files.length === 0) {
-                alert('Please select an image file to upload.');
-                return;
-            }
+<div class="upload-container">
+    <h1>Number recognition</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="file-input-container">
+            <label for="image" class="file-label">Upload an image:</label>
+            <input type="file" id="image" name="image" accept="image/*" class="file-input">
+        </div>
+        <button type="submit" class="submit-button">Recognize plate</button>
+        <div id="loader" class="loader"></div>
+    </form>
+</div>
 
-            var formData = new FormData(this); 
+<script src="{% static 'number_recognition/js/number_recognition.js' %}"></script>
 
-            // AJAX
-            fetch('/upload/', {
-                method: 'POST',
-                body: formData
-              })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.plate_number) {
-                        alert(`Recognized plate number: ${data.plate_number}`);
-                    } else {
-                        alert('License plate recognition failed.');
-                    }
-                })
-                .catch(error => {
-                    alert('Error occured. Try later.');
-                    console.error(error);
-                });
-          });
-    </script>
-</body>
-</html>
+{% endblock %}
+
+
+
 

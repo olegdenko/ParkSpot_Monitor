@@ -20,7 +20,8 @@ babel = ">=2.14.0,<2.15.0"
 imutils = "^0.5.4"
 numpy = "^1.26.4"
 easyocr = "^1.7.1"
-opencv-python = "^4.9.0.80"
+python-decouple = "3.6"
+pytest-django = "4.5.2"
 django-cors-headers = "^4.3.1"
 
 

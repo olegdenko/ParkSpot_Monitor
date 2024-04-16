@@ -8,6 +8,7 @@
     <div class="card shadow">
         <div class="card-body">
             <h2 class="card-title">@{{user.username}}</h2>
+            <a href="{% url 'users:generate_report_csv' %}" class="btn btn-primary" style="margin-left: 10px; width: 250px;">Download Report</a>
             <h3 class="card-subtitle mb-3">Your plates:</h3>
             <ul class="list-group">
                 {% for plate in plates %}

@@ -1,17 +1,22 @@
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-from users.models import Plates, Sessions
-from .number_recognition import recognize_plate
 from django.views.decorators.csrf import csrf_exempt
-import cv2
-import os
-from admin_app.forms import UploadImageForm 
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
 from django.conf import settings 
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
+
+from admin_app.forms import UploadImageForm 
+from users.models import Plates, Sessions
+from .number_recognition import recognize_plate
+
+from datetime import datetime
+import cv2
+import os
 import time
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -34,8 +39,18 @@ class UploadImageView(View):
                     try:
                         if request.user.is_authenticated:
                             user = request.user
-                            plate = Plates.objects.create(plate=plate_number, user=user)
-                            session = Sessions.objects.create(plate=plate)
+                            try:
+                                plate = Plates.objects.get(plate=plate_number)
+                                try:
+                                    session = Sessions.objects.get(plate=plate, exit_time=None)
+                                    session.exit_time = datetime.now()
+                                    session.save()
+                                except ObjectDoesNotExist:
+                                    session = Sessions.objects.create(plate=plate)
+                            except ObjectDoesNotExist:
+                                plate = Plates.objects.create(plate=plate_number, user=user)
+                                session = Sessions.objects.create(plate=plate)
+                            
                             return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
                         else:
                             return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})

@@ -4,15 +4,52 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'users/styles.css' %}">
 
-<form method="POST" action="{% url 'users:add_plate' %}" class="mb-3 custom-form">
-    {% csrf_token %}
-    <div class="mb-3" style="margin-top: 50px;">
-        {{ form.plate }}
-        <div class="text-danger">{{ form.errors.text }}</div>
-    </div>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <form method="POST" action="{% url 'users:add_plate' %}" class="custom-form">
+        {% csrf_token %}
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="reset" class="btn btn-secondary">Reset</button>
-</form>
+        <div class="mb-3">
+            <label for="plate" class="form-label">Plate number:</label>
+            {{ form.plate }}
+            <div class="text-danger">{{ form.errors.plate }}</div>
+        </div>
+
+        <button type="submit" class="custom-button btn btn-primary">Submit</button>
+        <button type="reset" class="custom-button btn btn-secondary">Reset</button>
+    </form>
+</div>
+
+<style>
+    .custom-form {
+        width: 350px;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-button {
+        margin-top: 25px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-button:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+    }
+
+    .custom-button:active {
+        transform: translateY(0px);
+        box-shadow: none;
+    }
+</style>
 
 {% endblock %}
+

@@ -4,11 +4,15 @@ from users.models import Plates, Sessions
 from .number_recognition import recognize_plate
 from django.views.decorators.csrf import csrf_exempt
 import cv2
+import os
 from admin_app.forms import UploadImageForm 
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.views.decorators.cache import never_cache
+from django.conf import settings 
+import time
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UploadImageView(View):
@@ -16,32 +20,29 @@ class UploadImageView(View):
         initial_data = {
             'image': None,
         }
-
         form = UploadImageForm(initial=initial_data)
-
         context = {
             'form': form,
         }
-
-        return render(request, 'number_recognition/number_recognition.html', context)
-
+        return render(request, 'number_recognition/number_recognition.html', context)    
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            image_file = request.FILES['image']
-            plate_number = recognize_plate(image_file)
-
-            if plate_number:
-                try:
- 
-                    if request.user.is_authenticated:
-                        user = request.user
-                        plate = Plates.objects.create(plate=plate_number, user=user)
-                        session = Sessions.objects.create(plate=plate)
-                        return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
-                    else:
-                        return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})
-                except Exception as e:
-                    print(f"Error processing plate: {e}")
-                    return JsonResponse({'message': "Помилка обробки даних. Спробуйте ще раз."})
+            image_file = request.FILES.get('image')
+            if image_file:
+                plate_number = recognize_plate(image_file)
+                if plate_number:
+                    try:
+                        if request.user.is_authenticated:
+                            user = request.user
+                            plate = Plates.objects.create(plate=plate_number, user=user)
+                            session = Sessions.objects.create(plate=plate)
+                            return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
+                        else:
+                            return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})
+                    except Exception as e:
+                        print(f"Error processing plate: {e}")
+                        return JsonResponse({'message': "Помилка обробки даних. Спробуйте ще раз."})
+                else:
+                    return JsonResponse({'message': "Номер не розпізнано"})
             else:
-                return JsonResponse({'message': "Номер не розпізнано"})
+                return JsonResponse({'message': "Файл не було завантажено"})

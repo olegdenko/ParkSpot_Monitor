@@ -22,7 +22,13 @@ import time
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UploadImageView(View):
+    """
+    A view to handle the uploading of images for number plate recognition.
+    """
     def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests to display the image upload form.
+        """
         initial_data = {
             'image': None,
         }
@@ -34,6 +40,9 @@ class UploadImageView(View):
      
 
     def withdrawing_from_balance(self, request, session):
+        """
+        Deducts the appropriate balance from the user's account based on the time spent in the parking session.
+        """
         balance = Balance.objects.get(user=request.user)
 
         total_hours_spent = (session.exit_time-session.entrance_time).total_seconds() // 3600
@@ -52,6 +61,9 @@ class UploadImageView(View):
     
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to process the uploaded image and recognize the number plate.
+        """
         if request.method == 'POST':
             image_file = request.FILES.get('image')
             if image_file:

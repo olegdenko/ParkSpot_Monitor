@@ -5,6 +5,13 @@ from django.dispatch import receiver
 
 
 class Plates(models.Model):
+    """
+    Represents a vehicle plate registered by a user.
+
+    Attributes:
+        plate (str): The plate number.
+        user (User): The user who registered the plate.
+    """
     # plate = models.CharField(unique=True, max_length=50)
     plate = models.TextField(unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -14,6 +21,14 @@ class Plates(models.Model):
 
 
 class Sessions(models.Model):
+    """
+    Represents a parking session for a vehicle.
+
+    Attributes:
+        entrance_time (DateTime): The time when the vehicle entered the parking spot.
+        exit_time (DateTime): The time when the vehicle exited the parking spot.
+        plate (Plates): The plate associated with the parking session.
+    """
     entrance_time = models.DateTimeField(auto_now_add=True)
     exit_time = models.DateTimeField(null=True)
     plate = models.ForeignKey(Plates, on_delete=models.CASCADE)
@@ -23,6 +38,14 @@ class Sessions(models.Model):
 
 
 class BlacklistedVehicle(models.Model):
+    """
+    Represents a blacklisted vehicle.
+
+    Attributes:
+        plate (Plates): The plate number of the blacklisted vehicle.
+        user (User): The user who blacklisted the vehicle.
+        reason (str): The reason for blacklisting the vehicle.
+    """
     plate = models.ForeignKey('Plates', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     reason = models.TextField()
@@ -39,6 +62,13 @@ class BlacklistedVehicle(models.Model):
 
 
 class Balance(models.Model):
+    """
+    Represents the balance of a user.
+
+    Attributes:
+        user (User): The user associated with the balance.
+        amount (Decimal): The amount of balance.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -47,6 +77,13 @@ class Balance(models.Model):
 
 
 class ParkingRate(models.Model):
+    """
+    Represents a parking rate.
+
+    Attributes:
+        rate_name (str): The name of the parking rate.
+        price_per_hour (Decimal): The price per hour for parking.
+    """
     rate_name = models.CharField(max_length=50)
     price_per_hour = models.DecimalField(max_digits=5, decimal_places=2)
 
@@ -55,6 +92,13 @@ class ParkingRate(models.Model):
 
 
 class Settings(models.Model):
+    """
+    Represents system settings.
+
+    Attributes:
+        key (str): The key of the setting.
+        value (str): The value of the setting.
+    """
     key = models.CharField(max_length=255, unique=True)
     value = models.TextField()
 
@@ -64,6 +108,15 @@ class Settings(models.Model):
 
 @receiver(post_save, sender=User)
 def create_or_update_balance(sender, instance, created, **kwargs):
+    """
+    Creates or updates the balance for a user.
+
+    Args:
+        sender: The sender of the signal.
+        instance: The instance of the user.
+        created (bool): Whether the user was created or not.
+        **kwargs: Additional keyword arguments.
+    """
     if created:
         Balance.objects.create(user=instance, amount=0)
     else:

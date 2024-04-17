@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from .views import RegisterView, ResetPasswordView, logout_view, add_plate, show_plates, manage_plate, delete_plate,blocked_account_view, generate_report_csv, show_balance, top_up_balance
+from .views import RegisterView, ResetPasswordView, logout_view, add_plate, show_plates, manage_plate, delete_plate,blocked_account_view, generate_report_csv, show_balance, top_up_balance, sessions_history
 
 
 from .forms import LoginForm
@@ -30,5 +30,5 @@ urlpatterns = [
      path('generate_report_csv/', generate_report_csv, name='generate_report_csv'),
      path('show_balance/', show_balance, name='show_balance'),
      path('top_up_balance/', top_up_balance, name='top_up_balance'),
-     
+     path('sessions_history/', sessions_history, name='sessions_history')
 ]

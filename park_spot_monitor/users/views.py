@@ -213,6 +213,7 @@ def generate_report_csv(request):
         writer.writerow({
             'Plate': session.plate.plate,
             'User': session.plate.user.username,
+            'Total hours spent': session.total_hours_spent,
             'Entrance Time': session.entrance_time,
             'Exit Time': session.exit_time if session.exit_time else "Not exited yet"
         })

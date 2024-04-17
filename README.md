@@ -68,3 +68,4 @@ docker-compose up -d
 * [Viktoriia](https://github.com/Nilinz)
 * [Serhii](https://github.com/SerhiiAndreiko)
 * [Oleksandr](https://github.com/SVcheburator)
+* [Nikita](https://github.com/Nikita-devel)

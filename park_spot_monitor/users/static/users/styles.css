@@ -168,40 +168,79 @@ span.error {
   display: block;
   margin-bottom: 10px;
 }
-    .password-reset-container {
-        max-width: 400px;
-        margin: 50px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
+.password-reset-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    .password-reset-form {
-        display: flex;
-        flex-direction: column;
-    }
+.password-reset-form {
+    display: flex;
+    flex-direction: column;
+}
 
-    .password-reset-form button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        border: none;
-        background-color: #007BFF;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+.password-reset-form button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .password-reset-form button:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-    }
+.password-reset-form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
 
-    .password-reset-form button:active {
-        transform: translateY(0px);
-        box-shadow: none;
-    }
-</style>
+.password-reset-form button:active {
+    transform: translateY(0px);
+    box-shadow: none;
+}
 
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

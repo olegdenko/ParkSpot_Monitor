@@ -1,55 +1,74 @@
 {% extends "main_app/base.html" %}
 {% load static %}
 
-{% block content %}
-<link rel="stylesheet" href="{% static 'users/styles.css' %}">
+{% block head %}
+    <link rel="stylesheet" href="{% static 'users/styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
 
+{% block content %}
 <div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-body">
-            <h2 class="card-title">@{{user.username}}</h2>
-            <a href="{% url 'users:generate_report_csv' %}" class="btn btn-primary" style="margin-left: 10px; width: 250px;">Download Report</a>
-            <h3 class="card-subtitle mb-3">Your plates:</h3>
-            <ul class="list-group">
-                {% for plate in plates %}
-                <li class="list-group-item">
-                    <a href="{% url 'users:manage_plate' plate.id %}" class="plate-link">{{ plate.plate }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">{{ user.username }} <i class="fas fa-user"></i></h2>
+                    <a href="{% url 'users:generate_report_csv' %}" class="btn btn-primary d-block mb-3"><i class="fas fa-download"></i> Download Report</a>
+                    <h3 class="card-subtitle mb-3">Your plates <i class="fas fa-car"></i>:</h3>
+                    <ul class="list-group">
+                        {% for plate in plates %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'users:manage_plate' plate.id %}" class="plate-link">{{ plate.plate }}</a>
+                            <span class="badge badge-secondary badge-pill">Manage <i class="fas fa-cogs"></i></span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
+    body {
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+    }
+
     .card {
-        border-radius: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
     }
 
     .card-title {
-        margin-left: 20px;
-        font-size: 24px;
-        font-weight: bold;
+        color: #333;
+        font-weight: 600;
     }
 
-    .card-subtitle {
-        margin-left: 20px;
-        font-size: 20px;
-        color: #6c757d;
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
     }
 
     .list-group-item {
-        border: none;
+        border: 1px solid #ccc;
     }
 
     .plate-link {
-        color: #007BFF;
+        color: #333;
         text-decoration: none;
         transition: color 0.3s ease;
     }
 
     .plate-link:hover {
-        color: #0056b3;
+        color: #007bff;
     }
 </style>
 

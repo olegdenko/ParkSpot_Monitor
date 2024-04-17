@@ -48,8 +48,12 @@ POSTGRES_PASSWORD=
 POSTGRES_PORT=
 POSTGRES_HOST= 
 
-
 SECRET_KEY=
+
+EMAIL_HOST_USER=example@meta.ua
+EMAIL_HOST_PASSWORD=
+EMAIL_PORT=465
+EMAIL_HOST=smtp.meta.ua
 ```
 
 Виконайте наступні команди в корені проекту:

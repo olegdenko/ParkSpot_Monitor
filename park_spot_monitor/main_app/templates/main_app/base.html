@@ -11,11 +11,11 @@
     <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
- 
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'main_app/styles.css' %}">
     <link rel="stylesheet" href="{% static 'main_app/docs.css' %}">
-    <link rel="stylesheet" href="{% static 'main_app/css/all.min.css' %}">    
+    <link rel="stylesheet" href="{% static 'main_app/css/all.min.css' %}">
 
     <style>
         /* Додайте фонове зображення */
@@ -49,6 +49,12 @@
             </li>
             {% if user.is_authenticated %}
             <li>
+                <a class="nav-link text-white" href="{% url 'users:show_balance' %}">
+                    <i class="fa-solid fa-dollar"></i>
+                    <span class="nav-item">Your balance</span>
+                </a>
+            </li>
+            <li>
             <a class="nav-link text-white" href="{% url 'users:show_plates' %}">
                 <i class="fa-solid fa-list"></i>
                 <span class="nav-item">Your plates</span>
@@ -78,7 +84,7 @@
                 <i class="fa-solid fa-user"></i>
                 <span class="nav-item">SignIn</span>
             </a>
-            </li>  
+            </li>
             <li>
                 <a class="nav-link text-white" href="{% url 'users:register' %}">
                     <i class="fa-solid fa-user-check"></i>

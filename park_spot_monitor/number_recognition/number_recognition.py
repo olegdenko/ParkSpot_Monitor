@@ -9,6 +9,15 @@ import time
 import tempfile
 
 def recognize_plate(image_file):
+    """
+    Recognizes a plate number from an image file.
+
+    Args:
+        image_file: A file object representing the image.
+
+    Returns:
+        str: The recognized plate number, or an error message if recognition fails.
+    """
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_image:
             temp_image.write(image_file.read())

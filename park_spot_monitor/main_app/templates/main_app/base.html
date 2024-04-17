@@ -49,6 +49,12 @@
             </li>
             {% if user.is_authenticated %}
             <li>
+                <a class="nav-link text-white" href="{% url 'users:show_balance' %}">
+                    <i class="fa-solid fa-dollar"></i>
+                    <span class="nav-item">Your balance</span>
+                </a>
+            </li>
+            <li>
             <a class="nav-link text-white" href="{% url 'users:show_plates' %}">
                 <i class="fa-solid fa-list"></i>
                 <span class="nav-item">Your plates</span>

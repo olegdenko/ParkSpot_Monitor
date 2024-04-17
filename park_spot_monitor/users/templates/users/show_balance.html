@@ -1,0 +1,18 @@
+{% extends "main_app/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="card-title">@{{user.username}}</h2>
+            <h3 class="card-subtitle mb-3">
+                Your balance: <i>{{balance}}$</i>
+            </h3>
+            <a href="{% url 'users:top_up_balance' %}" class="btn btn-primary" style="margin-left: 10px; width: 250px;">Add 10$</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -7,15 +7,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
+from django.http import HttpResponse
+
 
 from .forms import RegisterForm, PlateForm
 from .models import Balance, Sessions, Plates
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
 
 import csv
-from django.http import HttpResponse
+
 
 
 @login_required
@@ -25,22 +24,6 @@ def logout_view(request):
         logout(request)
         return render(request, "users/signout.html", {"title":"Logout user", "username": username})
     return redirect(to="mian_app:main")
-
-def user_dashboard(request):
-    entries = Sessions.objects.all()[:10]  # Останні 10 записів
-    balance = Balance.objects.get(user=request.user).amount  # Баланс користувача
-    payment_due = True  # Перевірте, чи є оплата
-    return render(request, 'users/user_dashboard.html', {'entries': entries, 'balance': balance, 'payment_due': payment_due})
-
-
-def top_up_balance(request):
-    # Отримання балансу користувача
-    balance = Balance.objects.get(user=request.user)
-    # Оновлення балансу на 100 балів
-    balance.amount += 100
-    balance.save()
-    # Після успішного поповнення перенаправлення на сторінку користувача
-    return redirect('users:user_dashboard')
 
 
 class RegisterView(View):
@@ -107,7 +90,28 @@ def delete_plate(request, plate_id):
     return redirect(to='users:show_plates')
 
 
-# Sessions report
+# Balance
+@login_required
+def show_balance(request):
+    balance = Balance.objects.get(user=request.user)
+    return render(request, 'users/show_balance.html', {"balance": balance})
+
+
+@login_required
+def top_up_balance(request):
+    balance = Balance.objects.get(user=request.user)
+    balance.balance += 10
+    balance.save()
+    return redirect('users:show_balance')
+
+
+
+# Sessions
+@login_required
+def sessions_history(request):
+    ...
+
+
 @login_required
 def generate_report_csv(request):
     sessions = Sessions.objects.all()

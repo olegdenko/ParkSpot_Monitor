@@ -1,0 +1,54 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/styles.css' %}">
+
+<div class="container mt-5">
+    <h1 class="text-center">Sign In</h1>
+
+    <!-- Виводимо Flash сповіщення -->
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Обробляємо помилки форми, які не відносяться до полів -->
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <div class="bd-example">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Username:</label>
+                <input type="text" name="username" class="form-control" id="id_username">
+                <span class="text-danger">{{ form.errors.username }}</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password:</label>
+                <input type="password" name="password" class="form-control" id="id_password">
+                <span class="text-danger">{{ form.errors.password }}</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+
+            <a href="/mainadmin/" class="btn btn-secondary btn-block mt-3">Login as admin</a> <!-- Змінив на Bootstrap кнопку -->
+
+            <div class="text-center mt-3">
+                <a href="{% url 'users:password_reset' %}" class="small">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

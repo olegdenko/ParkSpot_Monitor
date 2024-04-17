@@ -1,0 +1,12 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/styles.css' %}">
+<br>
+<h3>Logged out: {{username}} </h3>
+<br>
+<div class="alert alert-info" role="alert" >
+    Have you logged-out already? It's so sadly.
+</div>
+{% endblock %}

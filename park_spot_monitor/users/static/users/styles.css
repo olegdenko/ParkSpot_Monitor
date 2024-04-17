@@ -1,0 +1,246 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Headings */
+h1 {
+  font-size: 24px;
+  color: #303030;
+  margin-bottom: 20px;
+}
+
+/* Lists */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Payment status */
+.payment-status {
+  font-weight: bold;
+}
+
+.payment-status--due {
+  color: #ff0000; /* Red color for payment due */
+}
+
+.payment-status--nodue {
+  color: #00cc00; /* Green color for no payment due */
+}
+
+/* Cool effect */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.container:hover::before {
+  opacity: 1;
+}
+
+.white-text {
+  color: white;
+}
+
+/* users/styles.css */
+
+/* Зміна коліру тексту для всіх елементів */
+body {
+  color: #ffffff; /* білий колір тексту */
+}
+
+/* Зміна коліру тексту для певних елементів */
+.form-label.form-text {
+  color: #ffffff;
+ } /* білий колір тексту */
+.form-control.white-text {
+  color: #0d0d0d; /* білий колір тексту */
+}
+
+/* Зміна коліру тексту для сповіщень та помилок */
+.alert {
+  color: #ffffff; /* білий колір тексту */
+}
+
+/* users/styles.css */
+
+.bd-example {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f9fa; /* світло-сірий фон */
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333; /* темний колір тексту для міток */
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #ffffff; /* колір тексту для введених даних */
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff; /* колір кнопки відповідно до Bootstrap */
+  color: #fff; /* білий колір тексту на кнопці */
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Підкреслення для полів з помилками */
+span.error {
+  display: block;
+  color: #dc3545; /* колір помилок відповідно до Bootstrap */
+  margin-top: 5px;
+}
+
+/* Стилі для повідомлень про помилки */
+.alert-danger {
+  background-color: red;
+  color: white;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.alert-danger ul {
+  list-style-type: none;
+  margin-top: 10px;
+}
+
+.alert-danger ul li {
+  margin-left: 20px;
+}
+
+.alert-danger strong {
+  display: block;
+  margin-bottom: 10px;
+}
+.password-reset-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.password-reset-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.password-reset-form button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.password-reset-form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.password-reset-form button:active {
+    transform: translateY(0px);
+    box-shadow: none;
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

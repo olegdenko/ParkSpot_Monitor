@@ -1,0 +1,88 @@
+{% extends "main_app/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="container mt-5">
+    <div class="card shadow border-primary">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="center-content p-4">
+                    <img src="{% static 'main_app/human-man.svg' %}" width="128"
+                         class="img-fluid rounded-circle" alt="User Image">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">Welcome, {{user.username}}</h2>
+                    <p>Manage parking with computer vision technology. Automatically detect license plates, track parking durations, and calculate parking charges.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+<div class="container mt-5 text-center">
+    <div class="card border-secondary">
+        <div class="card-body">
+            <h1 class="display-5 fw-bold">Smart Parking Management</h1>
+            <h3 class="display-6 fw-bold">Join us today!</h3>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead">Sign up now to experience automatic license plate recognition, track parking duration, and manage parking charges seamlessly.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<style>
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .card {
+        border-radius: 15px;
+        border: 1px solid #dee2e6; /* Додано рамку для карточки */
+    }
+
+    .card-title {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .lead {
+        font-size: 16px;
+    }
+
+    .rounded-circle {
+        border-radius: 50%;
+    }
+
+    /* Фон для неввійдених користувачів */
+    .container.text-center {
+        background-color: #f8f9fa; /* Світло-сірий фон */
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    /* Змінити рамку для неввійдених користувачів */
+    .card.border-secondary {
+        border-color: #6c757d; /* Сірий колір рамки */
+    }
+</style>
+
+{% endblock %}
+
+
+
+
+

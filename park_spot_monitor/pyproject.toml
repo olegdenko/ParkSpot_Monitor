@@ -7,7 +7,28 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+django = "^5.0.4"
+environ = "^1.0"
+env = "^0.1.0"
+psycopg2-binary = ">=2.9.9,<2.10.0"
+pillow = ">=10.1.0,<10.2.0"
+requests = ">=2.31.0,<2.32.0"
+lxml = ">=4.9.3,<4.10.0"
+django-environ = ">=0.11.2,<0.12.0"
+django-storages = ">=1.14.2,<1.15.0"
+babel = ">=2.14.0,<2.15.0"
+imutils = "^0.5.4"
+numpy = "^1.26.4"
+easyocr = "^1.7.1"
+python-decouple = "3.6"
+pytest-django = "4.5.2"
+django-cors-headers = "^4.3.1"
+opencv-python-headless = "4.5.4.58"
+pytest = "^8.1.1"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
 
 [build-system]
 requires = ["poetry-core"]

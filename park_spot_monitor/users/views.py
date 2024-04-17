@@ -98,7 +98,7 @@ def show_plates(request):
     """
     plates = None
     if request.user.is_authenticated:
-        plates = Plates.objects.all()
+        plates = Plates.objects.filter(user = request.user)
     
     return render(request, 'users/show_plates.html', {"plates": plates})
 
@@ -134,7 +134,7 @@ def add_plate(request):
         new_plate = form.save(commit=False)
         new_plate.user = request.user
         new_plate.save()
-        return redirect(to='main_app:main')
+        return redirect(to='users:show_plates')
     else:
         return render(request, 'users/add_plate.html', {'form': form})
 

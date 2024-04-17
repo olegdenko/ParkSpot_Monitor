@@ -21,7 +21,7 @@ README is available in the following languages:
 
 The application has the following main functionality:
 * Authentication and authorization
-     * Creation of user and administrator
+     * User and admin roles
 
 * Administration
      * Adding users to the blacklist
@@ -29,7 +29,7 @@ The application has the following main functionality:
 
 * Work with license plates:
      * Addition, deletion of license plates
-     * Recognition of the number of the car by the photo
+     * Recognition of the car number by the photo (using EasyOCR module)
 
 * Payment for parking
      * Balance check

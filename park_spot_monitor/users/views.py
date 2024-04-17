@@ -31,7 +31,7 @@ def logout_view(request):
         username = request.user.username
         logout(request)
         return render(request, "users/signout.html", {"title":"Logout user", "username": username})
-    return redirect(to="mian_app:main")
+    return redirect(to="main_app:main")
 
 
 class RegisterView(View):

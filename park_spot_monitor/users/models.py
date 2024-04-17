@@ -32,6 +32,7 @@ class Sessions(models.Model):
     entrance_time = models.DateTimeField(auto_now_add=True)
     exit_time = models.DateTimeField(null=True)
     plate = models.ForeignKey(Plates, on_delete=models.CASCADE)
+    total_hours_spent = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Session for {self.plate.plate}"

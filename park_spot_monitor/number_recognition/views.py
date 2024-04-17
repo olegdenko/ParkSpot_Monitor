@@ -9,9 +9,10 @@ from django.views.decorators.cache import never_cache
 from django.conf import settings 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
+from django.utils import timezone
 
 from admin_app.forms import UploadImageForm 
-from users.models import Plates, Sessions
+from users.models import Plates, Sessions, Balance
 from .number_recognition import recognize_plate
 
 from datetime import datetime
@@ -29,7 +30,27 @@ class UploadImageView(View):
         context = {
             'form': form,
         }
-        return render(request, 'number_recognition/number_recognition.html', context)    
+        return render(request, 'number_recognition/number_recognition.html', context)   
+     
+
+    def withdrawing_from_balance(self, request, session):
+        balance = Balance.objects.get(user=request.user)
+
+        total_hours_spent = (session.exit_time-session.entrance_time).total_seconds() // 3600
+        session.total_hours_spent = total_hours_spent
+        session.save()
+
+        one_hour_price = 10
+        withdrawed_money = one_hour_price
+        if total_hours_spent > 0:
+            withdrawed_money = total_hours_spent * one_hour_price
+        
+        balance.balance -= withdrawed_money
+        balance.save()
+
+        return withdrawed_money
+    
+
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             image_file = request.FILES.get('image')
@@ -39,18 +60,28 @@ class UploadImageView(View):
                     try:
                         if request.user.is_authenticated:
                             user = request.user
+                            balance = Balance.objects.get(user=user)
                             try:
                                 plate = Plates.objects.get(plate=plate_number)
                                 try:
                                     session = Sessions.objects.get(plate=plate, exit_time=None)
-                                    session.exit_time = datetime.now()
+                                    session.exit_time = timezone.now() 
                                     session.save()
+                                    withdrawed_money = self.withdrawing_from_balance(request, session)
+                                    return JsonResponse({'message': f"Сесію для номера {plate_number} закрито. Плату списано: {withdrawed_money}$"})
+
                                 except ObjectDoesNotExist:
-                                    session = Sessions.objects.create(plate=plate)
+                                    if balance.balance > 0:
+                                        session = Sessions.objects.create(plate=plate)
+                                    else:
+                                        return JsonResponse({'message': f"Недостатньо коштів (баланс - {balance.balance}$)"})
                             except ObjectDoesNotExist:
-                                plate = Plates.objects.create(plate=plate_number, user=user)
-                                session = Sessions.objects.create(plate=plate)
-                            
+                                if balance.balance > 0:
+                                    plate = Plates.objects.create(plate=plate_number, user=user)
+                                    session = Sessions.objects.create(plate=plate)
+                                else:
+                                    return JsonResponse({'message': f"Недостатньо коштів (баланс - {balance.balance}$)"})
+
                             return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
                         else:
                             return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})

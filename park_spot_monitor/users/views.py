@@ -186,7 +186,8 @@ def top_up_balance(request):
 # Sessions
 @login_required
 def sessions_history(request):
-    ...
+    sessions = Sessions.objects.filter(plate__user = request.user)
+    return render(request, 'users/sessions_history.html', {"sessions": sessions})
 
 
 @login_required
@@ -201,7 +202,7 @@ def generate_report_csv(request):
     """
     sessions = Sessions.objects.all()
 
-    field_names = ['Plate', 'User', 'Entrance Time', 'Exit Time']
+    field_names = ['Plate', 'User', 'Total hours spent', 'Entrance Time', 'Exit Time']
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="parking_report.csv"'

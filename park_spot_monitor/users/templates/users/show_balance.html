@@ -1,18 +1,27 @@
 {% extends "main_app/base.html" %}
 {% load static %}
 
+{% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'users/styles.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-body">
-            <h2 class="card-title">@{{user.username}}</h2>
-            <h3 class="card-subtitle mb-3">
-                Your balance: <i>{{balance}}$</i>
+            <h2 class="card-title">
+                <i class="fas fa-user-circle mr-2"></i> @{{user.username}}
+            </h2>
+            <h3 class="card-subtitle mb-3 text-muted">
+                Your balance: <i>{{balance}}$</i> <i class="fas fa-dollar-sign ml-2"></i>
             </h3>
-            <a href="{% url 'users:top_up_balance' %}" class="btn btn-primary" style="margin-left: 10px; width: 250px;">Add 10$</a>
+            <a href="{% url 'users:top_up_balance' %}" class="btn btn-primary" style="margin-left: 10px; width: 250px;">Add 10$ <i class="fas fa-plus-circle ml-2"></i></a>
         </div>
     </div>
 </div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 {% endblock %}

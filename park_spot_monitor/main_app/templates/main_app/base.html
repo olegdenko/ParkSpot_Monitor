@@ -16,15 +16,27 @@
     <link rel="stylesheet" href="{% static 'main_app/styles.css' %}">
     <link rel="stylesheet" href="{% static 'main_app/docs.css' %}">
     <link rel="stylesheet" href="{% static 'main_app/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'number_recognition/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-        /* Додайте фонове зображення */
+        /* Основні стилі */
         body {
             background-image: url('{% static "main_app/background.jpg" %}');
             background-size: cover;
             background-repeat: no-repeat;
         }
+
+        /* Анімація для кнопки навігації */
+        .nav-link {
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link.active {
+            background-color: #007bff; /* Змінюємо колір активної кнопки */
+        }
     </style>
+
 
     <title>{{title}}</title>
 </head>
@@ -42,10 +54,10 @@
         <hr>
         <ul class="nav nav-pills flex-column">
             <li>
-            <a class="nav-link active" href="/">
-                <i class="fa-solid fa-home"></i>
-                <span class="nav-item mx-auto">Home</span>
-            </a>
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span class="nav-item mx-auto">Home</span>
+                </a>
             </li>
             {% if user.is_authenticated %}
             <li>
@@ -55,10 +67,10 @@
                 </a>
             </li>
             <li>
-            <a class="nav-link text-white" href="{% url 'users:show_plates' %}">
-                <i class="fa-solid fa-list"></i>
-                <span class="nav-item">Your plates</span>
-            </a>
+                <a class="nav-link text-white" href="{% url 'users:show_plates' %}">
+                    <i class="fa-solid fa-list"></i>
+                    <span class="nav-item">Your plates</span>
+                </a>
             </li>
             <li>
                 <a class="nav-link text-white" href="{% url 'users:sessions_history' %}">
@@ -67,23 +79,23 @@
                 </a>
             </li>
             <li>
-            <a class="nav-link text-white" href="{% url 'number_recognition' %}">
-                <i class="fa-solid fa-camera"></i>
-                <span class="nav-item">Recognize a plate</span>
-            </a>
+                <a class="nav-link text-white" href="{% url 'number_recognition' %}">
+                    <i class="fa-solid fa-camera"></i>
+                    <span class="nav-item">Recognize a plate</span>
+                </a>
             </li>
             <li>
-            <a class="nav-link text-white" href="{% url 'users:logout' %}">
-                <i class="fa-solid fa-sign-out"></i>
-                <span class="nav-item">Logout</span>
-            </a>
+                <a class="nav-link text-white" href="{% url 'users:logout' %}">
+                    <i class="fa-solid fa-sign-out"></i>
+                    <span class="nav-item">Logout</span>
+                </a>
             </li>
             {% else %}
             <li>
-            <a class="nav-link text-white" href="{% url 'users:login' %}">
-                <i class="fa-solid fa-user"></i>
-                <span class="nav-item">SignIn</span>
-            </a>
+                <a class="nav-link text-white" href="{% url 'users:login' %}">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="nav-item">SignIn</span>
+                </a>
             </li>
             <li>
                 <a class="nav-link text-white" href="{% url 'users:register' %}">
@@ -94,17 +106,14 @@
             {% endif %}
         </ul>
         <hr>
-        <div class="dropdown" style="margin-top: 20px;"> <!-- Added inline style for margin-top -->
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{% static 'main_app/human-man.svg' %}" alt="" width="32" height="32" class="rounded-circle me-2"> <!-- Modified image source to use static template tag -->
-                {% if user.is_authenticated %}
-                <strong style="color: #00d000">{{user.username}}</strong><span style="color: #00d000"> &#9679;</span> <!-- Added inline style for username color -->
-                {% else %}
-                <strong style="color: #555">Username </strong> <!-- Added inline style for username color -->
-                {% endif %}
+        <div class="mt-auto"> <!-- Pushes content to the bottom -->
+            <a href="https://github.com/olegdenko/ParkSpot_Monitor" target="_blank" class="d-flex align-items-center text-white text-decoration-none mt-auto">
+                <i class="fab fa-github"></i> <!-- Font Awesome GitHub icon -->
+                <span class="ms-2">Project Link</span>
             </a>
         </div>
     </div>
+
     <div class="b-example-divider b-example-vr"></div>
 
     <div class="container-fluid">
@@ -118,35 +127,31 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get all buttons with class "nav-link"
         const buttons = document.querySelectorAll('.nav-link');
 
-        // Loop through each button
         buttons.forEach(button => {
-            // Add click event listener to each button
             button.addEventListener('click', function(event) {
-                // Prevent default link behavior
                 event.preventDefault();
-
-                // Remove "active" class from all buttons
                 buttons.forEach(btn => {
                     btn.classList.remove('active');
                 });
-
-                // Add "active" class to clicked button
                 this.classList.add('active');
-
-                // Get the href attribute of the clicked button
                 const url = this.getAttribute('href');
-
-                // Navigate to the URL after a short delay to allow CSS animation
                 setTimeout(function() {
                     window.location.href = url;
-                }, 300); // Adjust the delay as needed
+                }, 300);
             });
+        });
+
+        // Встановлюємо клас "active" на основі поточного URL
+        buttons.forEach(button => {
+            if (button.getAttribute('href') === window.location.pathname) {
+                button.classList.add('active');
+            }
         });
     });
 </script>
 
 </body>
 </html>
+

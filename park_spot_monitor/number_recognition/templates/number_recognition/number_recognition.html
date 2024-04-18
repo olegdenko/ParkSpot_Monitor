@@ -8,19 +8,36 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="text-center mb-0">Upload Image <i class="fas fa-upload"></i></h1>
+                </div>
                 <div class="card-body">
-                    <h1 class="text-center mb-4">Number recognition <i class="fas fa-camera"></i></h1>
+                    <!-- Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %} role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                     <form id="uploadForm" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="image">Upload an image <i class="fas fa-upload"></i>:</label>
-                            <input type="file" id="image" name="image" accept="image/*" class="form-control-file">
+                            <label for="image"><i class="fas fa-image"></i> Upload Image:</label>
+                            {{ form.image }}
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-search"></i> Recognize plate</button>
-                        <div id="loader" class="loader mt-3"></div>
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+                        <div id="loader" class="loader mt-3 d-none"></div> <!-- Initially hidden -->
                     </form>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    <p class="mb-0">Supported formats: JPG, PNG. Max size: 5MB.</p>
                 </div>
             </div>
         </div>
@@ -29,50 +46,24 @@
 
 <script src="{% static 'number_recognition/js/number_recognition.js' %}"></script>
 
-<style>
-    body {
-        background-color: #f4f4f4;
-        font-family: Arial, sans-serif;
-    }
+<script>
+    // Show loader when form is submitted
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        document.getElementById('loader').classList.remove('d-none');
+    });
 
-    .card {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-title {
-        color: #333;
-        font-weight: 600;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
-    }
-
-    .loader {
-        border: 3px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 3px solid #3498db;
-        width: 20px;
-        height: 20px;
-        animation: spin 1s linear infinite;
-        display: none;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-</style>
+    // Close alert messages
+    document.querySelectorAll('.alert .close').forEach(function(closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            const alert = this.closest('.alert');
+            alert.classList.add('d-none'); // or you can use alert.remove();
+        });
+    });
+</script>
 
 {% endblock %}
+
+
 
 
 

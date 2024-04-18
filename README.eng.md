@@ -63,7 +63,7 @@ Run the following commands in the project root:
 docker-compose up -d
 ```
 ## Sphinx Documentation
-* [Sphinx] ()
+* [Sphinx](https://maroon-odelia-43.tiiny.site)
 
 ## Project Authors
 * [Oleg](https://github.com/olegdenko)

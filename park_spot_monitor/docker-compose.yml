@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:12
     env_file:
-      - ./.env
+      - ./.env_docker
     ports:
       - "5432:5432"
     volumes:
@@ -15,10 +15,8 @@ services:
       dockerfile: docker/dev/Dockerfile
     image: django
     command: ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
-    volumes:
-      - .:/app
     ports:
       - '8000:8000'
     env_file:
-      - ./.env
+      - ./.env_docker
     restart: unless-stopped

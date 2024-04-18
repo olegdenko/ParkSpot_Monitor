@@ -12,11 +12,8 @@ services:
   django:
     build:
       context: .
-      dockerfile: docker/dev/Dockerfile
-    image: django
+      dockerfile: /docker/dev/Dockerfile
     command: ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
-    volumes:
-      - .:/app
     ports:
       - '8000:8000'
     env_file:

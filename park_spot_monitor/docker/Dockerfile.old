@@ -20,15 +20,15 @@ RUN pip3 install poetry
 RUN poetry install
 
 # Copy entrypoint.sh
-COPY ./docker/dev/entrypoint.sh ./entrypoint.sh
+COPY ./entrypoint.sh ./entrypoint.sh
 
 RUN chmod +x ./entrypoint.sh
 
-COPY . /app/
+COPY . .
 
 RUN chmod +x ./wait-for-it.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
 
 # # Add command to create superuser
 # CMD ["poetry", "run", "python", "manage.py", "createsuperuser", "--no-input"]

@@ -10,7 +10,8 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
 from django.utils import timezone
-
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from admin_app.forms import UploadImageForm 
 from users.models import Plates, Sessions, Balance
 from .number_recognition import recognize_plate
@@ -58,7 +59,6 @@ class UploadImageView(View):
         balance.save()
 
         return withdrawed_money
-    
 
     def post(self, request, *args, **kwargs):
         """
@@ -77,30 +77,39 @@ class UploadImageView(View):
                                 plate = Plates.objects.get(plate=plate_number)
                                 try:
                                     session = Sessions.objects.get(plate=plate, exit_time=None)
-                                    session.exit_time = timezone.now() 
+                                    session.exit_time = timezone.now()
                                     session.save()
                                     withdrawed_money = self.withdrawing_from_balance(request, session)
-                                    return JsonResponse({'message': f"Сесію для номера {plate_number} закрито. Плату списано: {withdrawed_money}$"})
+                                    messages.success(request,
+                                                     f"Сесію для номера {plate_number} закрито. Плату списано: {withdrawed_money}$")
+                                    return redirect('number_recognition')
 
                                 except ObjectDoesNotExist:
                                     if balance.balance > 0:
                                         session = Sessions.objects.create(plate=plate)
                                     else:
-                                        return JsonResponse({'message': f"Недостатньо коштів (баланс - {balance.balance}$)"})
+                                        messages.error(request, f"Недостатньо коштів (баланс - {balance.balance}$)")
+                                        return redirect('number_recognition')
                             except ObjectDoesNotExist:
                                 if balance.balance > 0:
                                     plate = Plates.objects.create(plate=plate_number, user=user)
                                     session = Sessions.objects.create(plate=plate)
                                 else:
-                                    return JsonResponse({'message': f"Недостатньо коштів (баланс - {balance.balance}$)"})
+                                    messages.error(request, f"Недостатньо коштів (баланс - {balance.balance}$)")
+                                    return redirect('number_recognition')
 
-                            return JsonResponse({'message': f"Номер розпізнано: {plate_number}. Сесія створена.", 'plate_number': plate_number})
+                            messages.success(request, f"Номер розпізнано: {plate_number}. Сесія створена.")
+                            return redirect('number_recognition')
                         else:
-                            return JsonResponse({'message': "Для створення сесії, потрібно увійти до системи."})
+                            messages.error(request, "Для створення сесії, потрібно увійти до системи.")
+                            return redirect('number_recognition')
                     except Exception as e:
                         print(f"Error processing plate: {e}")
-                        return JsonResponse({'message': "Помилка обробки даних. Спробуйте ще раз."})
+                        messages.error(request, "Помилка обробки даних. Спробуйте ще раз.")
+                        return redirect('number_recognition')
                 else:
-                    return JsonResponse({'message': "Номер не розпізнано"})
+                    messages.error(request, "Номер не розпізнано")
+                    return redirect('number_recognition')
             else:
-                return JsonResponse({'message': "Файл не було завантажено"})
+                messages.error(request, "Файл не було завантажено")
+                return redirect('number_recognition')

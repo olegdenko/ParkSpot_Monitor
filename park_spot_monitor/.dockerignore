@@ -1,0 +1,7 @@
+/postgres-data
+.vscode
+.pytest_cache
+/tests
+.gitingnore
+.docker-compose*
+.dockerignore

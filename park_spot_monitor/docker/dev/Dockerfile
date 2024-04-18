@@ -28,7 +28,7 @@ COPY . /app/
 
 RUN chmod +x ./wait-for-it.sh
 
-# ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 # # Add command to create superuser
 # CMD ["poetry", "run", "python", "manage.py", "createsuperuser", "--no-input"]
